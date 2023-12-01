@@ -6,16 +6,16 @@
 TEST(BIG_INT, COMPARE_TO) {
     boost::mt19937 mt(time(0));
     for (int i = 0; i < (1 << 10); ++i) {
-//        boost::multiprecision::cpp_int a0 = mt();
-//        boost::multiprecision::cpp_int b0 = mt();
-//        for (int j = 0; j < (1 << 3); ++j) {
-//            a0 *= a0;
-//            b0 *= b0;
-//        }
-//        a0 = mt() % 2 == 0 ? a0 : -a0;
-//        b0 = mt() % 2 == 0 ? b0 : -b0;
-        auto a0 = boost::multiprecision::cpp_int("2909976390831423376000000000");
-        auto b0 = boost::multiprecision::cpp_int("7098838590000000000000000000");
+        boost::multiprecision::cpp_int a0 = mt();
+        boost::multiprecision::cpp_int b0 = mt();
+        for (int j = 0; j < (1 << 3); ++j) {
+            a0 *= a0;
+            b0 *= b0;
+        }
+        a0 = mt() % 2 == 0 ? a0 : -a0;
+        b0 = mt() % 2 == 0 ? b0 : -b0;
+//        auto a0 = boost::multiprecision::cpp_int("2909976390831423376000000000");
+//        auto b0 = boost::multiprecision::cpp_int("7098838590000000000000000000");
         int c0;
         if (a0 > b0)
             c0 = 1;
