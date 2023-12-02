@@ -249,6 +249,7 @@ public:
                 return -((-a) + b);
             }
         }
+        return 0;
     }
 
     big_int operator*(const big_int &ob) const {

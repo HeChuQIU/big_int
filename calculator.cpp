@@ -5,15 +5,25 @@
 #include "calculator.h"
 #include "iostream"
 #include "big_int.h"
-#include "expression.h"
 
 int main() {
-    calculator::Hello("Big Int");
+    calculator::hello("Big Int");
     while (true) {
-        expression exp;
-        std::cout << "请输入表达式：（仅包含0-9与四则运算符号）" << std::endl;
-        std::cin >> exp;
-        std::cout << "结果为：" << std::endl;
-        std::cout << exp.get_value() << std::endl;
+        try
+        {
+            std::string exp;
+            std::cout << "Please enter an expression: (contains only numbers, arithmetic operators, commas, and parentheses)" << std::endl;
+            std::getline(std::cin, exp);
+            if (exp.empty())
+                throw "Invalid expression";
+            auto ans = calculator::solve(exp);
+            std::cout << "The result is:" << std::endl;
+            std::cout << ans << std::endl;
+        }
+        catch (const char* msg)
+        {
+	        std::cerr << msg << std::endl;
+        }
+        std::cout << std::endl;
     }
 }
