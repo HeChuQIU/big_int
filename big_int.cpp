@@ -33,3 +33,23 @@ big_int &operator-=(big_int &a, const big_int &b) {
     a = a - b;
     return a;
 }
+
+big_int &operator*=(big_int &a, const big_int &b) {
+    a = a * b;
+    return a;
+}
+
+big_int &operator/=(big_int &a, const big_int &b) {
+    a = a / b;
+    return a;
+}
+
+big_int pow(const big_int &a, const int &index) {
+    if (index < 0)
+        throw "index must bigger than zero";
+    big_int c = 1;
+    for (auto i = 0; i < index; i++) {
+        c *= a;
+    }
+    return c;
+}

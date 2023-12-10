@@ -9,8 +9,18 @@
 #include <stack>
 #include <string>
 #include <vector>
+#include <map>
+#include <unordered_map>
 
 #include "big_int.h"
+
+const static std::unordered_map<char, int> char_map = {
+        {'+', 0},
+        {'-', 0},
+        {'*', 1},
+        {'/', 1},
+        {'^', 2},
+};
 
 class calculator {
 public:
@@ -19,25 +29,24 @@ public:
     }
 
     /**
-     * ½«ÊäÈëµÄÖĞ×º±í´ïÊ½×ª»¯Îªºó×º±í´ïÊ½
-     * @param nifix_str ÖĞ×º±í´ïÊ½
-     * @return ×Ö·û´®Êı×é£¬Ã¿Ò»¸ö×Ö·û´®´ú±íÒ»¸öÊı×Ö»òÕßÔËËã·û
+     * å°†è¾“å…¥çš„ä¸­ç¼€è¡¨è¾¾å¼è½¬åŒ–ä¸ºåç¼€è¡¨è¾¾å¼
+     * @param nifix_str ä¸­ç¼€è¡¨è¾¾å¼
+     * @return å­—ç¬¦ä¸²æ•°ç»„ï¼Œæ¯ä¸€ä¸ªå­—ç¬¦ä¸²ä»£è¡¨ä¸€ä¸ªæ•°å­—æˆ–è€…è¿ç®—ç¬¦
      */
-    static std::vector<std::string> nifix_to_postfix(std::string& nifix_str) {
+    static std::vector<std::string> nifix_to_postfix(std::string &nifix_str) {
         std::stack<char> operator_sc;
         std::vector<std::string> ans;
         int temp = 0;
         for (int i = 0; i < nifix_str.size(); ++i) {
-            if (auto a = nifix_str[i]; a == '+' || a == '-' || a == '/' || a == '*') {
+            if (auto a = nifix_str[i]; char_map.contains(a)) {
                 while (!operator_sc.empty()) {
                     char peek = operator_sc.top();
-                    if (is_higher(peek, a) == -1 || peek == '(') break;
+                    if (is_higher(peek, a) < 0 || peek == '(') break;
                     operator_sc.pop();
                     ans.push_back(std::string(1, peek));
                 }
                 operator_sc.push(a);
-            }
-            else if (a == '(' || a == ')') {
+            } else if (a == '(' || a == ')') {
                 if (a == ')') {
                     while (!operator_sc.empty()) {
                         char peek = operator_sc.top();
@@ -48,24 +57,21 @@ public:
                     continue;
                 }
                 operator_sc.push(a);
-            }
-            else if (a >= '0' && a <= '9') {
+            } else if (a >= '0' && a <= '9') {
                 int cur = i;
                 std::string curStr = "";
                 for (; cur < nifix_str.size(); ++cur) {
                     char b = nifix_str[cur];
                     if (b >= '0' && b <= '9')
                         curStr += b;
-                    else if(b != ',')
+                    else if (b != ',')
                         break;
                 }
                 i = cur - 1;
                 ans.push_back(std::move(curStr));
-            }
-            else if (a == ' ' || a == '\t' || a == ',') {
+            } else if (a == ' ' || a == '\t' || a == ',') {
                 continue;
-            }
-            else {
+            } else {
                 throw "Invalid expression";
             }
         }
@@ -80,14 +86,13 @@ public:
     }
 
     /**
-     * ¼ÆËãºó×º±í´ïÊ½
+     * è®¡ç®—åç¼€è¡¨è¾¾å¼
      */
-    static big_int postfix_cal(const std::vector<std::string>& strs) {
+    static big_int postfix_cal(const std::vector<std::string> &strs) {
         std::stack<big_int> sc;
         for (int i = 0; i < strs.size(); ++i) {
-            const std::string& str = strs[i];
-            if (str.compare("+") == 0 || str.compare("-") == 0 ||
-                str.compare("/") == 0 || str.compare("*") == 0) {
+            const std::string &str = strs[i];
+            if (str.length() == 1 && char_map.contains(str[0])) {
                 if (sc.size() < 2) throw "Invalid expression";
                 auto b = sc.top();
                 sc.pop();
@@ -99,10 +104,11 @@ public:
                     sc.push(a - b);
                 else if (str.compare("/") == 0)
                     sc.push(a / b);
-                else
+                else if (str.compare("*") == 0)
                     sc.push(a * b);
-            }
-            else {
+                else if (str.compare("^") == 0)
+                    sc.push(pow(a, b));
+            } else {
                 auto temp = big_int(str);
                 sc.push(temp);
             }
@@ -111,19 +117,13 @@ public:
         return sc.top();
     }
 
-    static big_int solve(std::string exp)
-    {
+    static big_int solve(std::string exp) {
         return postfix_cal(nifix_to_postfix(exp));
     }
 
 private:
     static int is_higher(char c1, char c2) {
-        if ((c1 == '*' || c1 == '/') && (c2 == '+' || c2 == '-'))
-            return 1;
-        else if ((c2 == '*' || c2 == '/') && (c1 == '+' || c1 == '-'))
-            return -1;
-        else
-            return 0;
+        return char_map.at(c1) - char_map.at(c2);
     }
 };
 

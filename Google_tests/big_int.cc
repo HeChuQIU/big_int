@@ -162,3 +162,25 @@ TEST(BIG_INT, DIVIDE) {
                                                 << std::endl;
     }
 }
+
+TEST(BIG_INT, POWER) {
+    boost::mt19937 mt(time(0));
+    for (int i = 0; i < (1 << 8); ++i) {
+        boost::multiprecision::cpp_int a0 = mt();
+        int b0 = mt() % (1 << 3);
+        for (int j = 0; j < (1 << 1); ++j) {
+            a0 *= a0;
+        }
+        a0 = mt() % 2 == 0 ? a0 : -a0;
+        boost::multiprecision::cpp_int c0 = boost::multiprecision::pow(a0, b0);
+
+        big_int a1(to_string(a0));
+        int b1 = b0;
+        big_int c1 = pow(a1, b1);
+
+        EXPECT_EQ(to_string(c0), to_string(c1)) << a0 << std::endl << b0 << std::endl << c0 << std::endl
+                                                << "===========================================" << std::endl
+                                                << a1 << std::endl << b1 << std::endl << c1 << std::endl
+                                                << std::endl;
+    }
+}

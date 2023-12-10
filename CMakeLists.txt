@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD 23)
 include_directories(.)
 
 add_executable(integer_calculator
-        
         calculator.cpp
         calculator.h
         double_circular_linked_list.h

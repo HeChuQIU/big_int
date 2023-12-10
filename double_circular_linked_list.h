@@ -7,6 +7,7 @@
 
 #include <iterator>
 #include <iostream>
+#include <vector>
 
 template<class T>
 class double_circular_linked_list {

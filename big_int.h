@@ -23,6 +23,10 @@ public:
 
     friend big_int &operator-=(big_int &a, const big_int &b);
 
+    friend big_int &operator*=(big_int &a, const big_int &b);
+
+    friend big_int &operator/=(big_int &a, const big_int &b);
+
     big_int() : double_circular_linked_list<short>() {
         head->value = 0;
     }
@@ -308,5 +312,6 @@ private:
     bool isMinus = false;
 };
 
+big_int pow(const big_int &a, const int &index);
 
 #endif //INTEGER_CALCULATOR_BIG_INT_H
