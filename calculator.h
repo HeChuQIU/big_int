@@ -107,7 +107,7 @@ public:
                 else if (str.compare("*") == 0)
                     sc.push(a * b);
                 else if (str.compare("^") == 0)
-                    sc.push(pow(a, b));
+                    sc.push(pow(a, std::stoi(b.to_string())));
             } else {
                 auto temp = big_int(str);
                 sc.push(temp);
