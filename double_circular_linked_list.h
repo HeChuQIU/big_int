@@ -17,7 +17,6 @@ public:
         T value;
         node *prev;
         node *next;
-        bool isHead = false;
 
         explicit node() = default;
 

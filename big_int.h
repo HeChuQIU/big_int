@@ -70,7 +70,7 @@ public:
         }
         if (isMinus && s != "0")
             s.insert(0, "-");
-        return s;
+        return s.substr(0, s.length() - (split ? 1 : 0));
     }
 
     //从字符串中读取big_int，返回读取结束的位置

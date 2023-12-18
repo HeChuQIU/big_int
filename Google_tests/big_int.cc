@@ -14,8 +14,6 @@ TEST(BIG_INT, COMPARE_TO) {
         }
         a0 = mt() % 2 == 0 ? a0 : -a0;
         b0 = mt() % 2 == 0 ? b0 : -b0;
-//        auto a0 = boost::multiprecision::cpp_int("2909976390831423376000000000");
-//        auto b0 = boost::multiprecision::cpp_int("7098838590000000000000000000");
         int c0;
         if (a0 > b0)
             c0 = 1;
@@ -27,11 +25,6 @@ TEST(BIG_INT, COMPARE_TO) {
         big_int a1(to_string(a0));
         big_int b1(to_string(b0));
         int c1 = a1.compare_to(b1);
-
-//        std::cout << a0 << std::endl << b0 << " " << c0 << std::endl
-//                  << "===========================================" << std::endl
-//                  << a1 << std::endl << b1 << " " << c1 << std::endl
-//                  << std::endl;
 
         EXPECT_EQ(c0, c1) << a0 << std::endl << b0 << " " << c0 << std::endl
                           << "===========================================" << std::endl
@@ -146,8 +139,6 @@ TEST(BIG_INT, DIVIDE) {
             a0 *= a0;
             b0 *= b0;
         }
-//        auto a0 = boost::multiprecision::cpp_int("-10008814980831423376");
-//        auto b0 = boost::multiprecision::cpp_int("-709883859");
         a0 = mt() % 2 == 0 ? a0 : -a0;
         b0 = mt() % 2 == 0 ? b0 : -b0;
         boost::multiprecision::cpp_int c0 = a0 / b0;

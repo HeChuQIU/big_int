@@ -18,7 +18,7 @@ int main() {
                 throw "Invalid expression";
             auto ans = calculator::solve(exp);
             std::cout << "The result is:" << std::endl;
-            std::cout << ans << std::endl;
+            std::cout << ans.to_string(true) << std::endl;
         }
         catch (const char* msg)
         {
