@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 23)
 
 include_directories(.)
 
+set(CMAKE_EXE_LINKER_FLAGS "-static")
+
 add_executable(integer_calculator
         calculator.cpp
         calculator.h
